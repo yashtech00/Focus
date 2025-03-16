@@ -14,54 +14,57 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  id       String  @id @default(uuid())
   username String?
-  email String @unique
-  password String 
-  teamId String
-  team Team @relation(fields: [teamId],references:[id])
+  email    String  @unique
+  password String
+  teamId   String
+  team     Team    @relation(fields: [teamId], references: [id])
 }
 
-model Task{
-   id String @id @default(uuid())
-   title String?
-   description String?
-   status String?
-   tags String?
-   startDate DateTime?
-   endDate DateTime?
-  
-  projectId String
-  project Project @relation(fields: [projectId],references: [id])
-}
-
-model Project{
-  id String @id @default(uuid())
-  title String?
+model Task {
+  id          String    @id @default(uuid())
+  title       String?
   description String?
-  startDate DateTime?
-   endDate DateTime?
-  task Task[]
+  status      String?
+  tags        String?
+  startDate   DateTime?
+  endDate     DateTime?
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+}
+
+model Project {
+  id          String        @id @default(uuid())
+  title       String?
+  description String?
+  startDate   DateTime?
+  endDate     DateTime?
+  task        Task[]
   projectTeam ProjectTeam[]
 }
 
-model Team{
-  id String @id @default(uuid())
-  TeamName String?
+model Team {
+  id             String        @id @default(uuid())
+  TeamName       String?
   projectManager String?
-  projectOwner String?
-  projectTeam ProjectTeam []
-  user User[]
-
+  projectOwner   String?
+  projectTeam    ProjectTeam[]
+  user           User[]
 }
 
 model ProjectTeam {
-  id String @id @default(uuid())
-  teamId String
+  id        String @id @default(uuid())
+  teamId    String
   projectId String
 
-  team Team @relation(fields: [teamId],references: [id])
-  project Project @relation(fields: [projectId],references: [id])
+  team    Team    @relation(fields: [teamId], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
 }
 
-
+model comment {
+  id String @id @default(uuid())
+  comments String
+  
+}
