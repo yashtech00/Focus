@@ -18,6 +18,8 @@ model User {
   username String?
   email String @unique
   password String 
+  teamId String
+  team Team @relation(fields: [teamId],references:[id])
 }
 
 model Task{
@@ -40,6 +42,26 @@ model Project{
   startDate DateTime?
    endDate DateTime?
   task Task[]
+  projectTeam ProjectTeam[]
+}
+
+model Team{
+  id String @id @default(uuid())
+  TeamName String?
+  projectManager String?
+  projectOwner String?
+  projectTeam ProjectTeam []
+  user User[]
+
+}
+
+model ProjectTeam {
+  id String @id @default(uuid())
+  teamId String
+  projectId String
+
+  team Team @relation(fields: [teamId],references: [id])
+  project Project @relation(fields: [projectId],references: [id])
 }
 
 
