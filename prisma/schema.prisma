@@ -18,6 +18,7 @@ model User {
   username String?
   email    String  @unique
   password String
+  provider Provider[]
   teamId   String
   team     Team    @relation(fields: [teamId], references: [id])
   comment Comment[]
@@ -77,5 +78,6 @@ model Comment {
 }
 
 enum Provider {
-  
+  Github
+  Credentials
 }
