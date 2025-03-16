@@ -20,6 +20,7 @@ model User {
   password String
   teamId   String
   team     Team    @relation(fields: [teamId], references: [id])
+  comment Comment[]
 }
 
 model Task {
@@ -33,6 +34,7 @@ model Task {
 
   projectId String
   project   Project @relation(fields: [projectId], references: [id])
+  comment Comment[]
 }
 
 model Project {
@@ -63,8 +65,17 @@ model ProjectTeam {
   project Project @relation(fields: [projectId], references: [id])
 }
 
-model comment {
+model Comment {
   id String @id @default(uuid())
-  comments String
+  text String
+  taskId String
+  userId String
+
+  task Task @relation(fields: [taskId],references: [id])
+  user User @relation(fields: [userId],references: [id])
+  
+}
+
+enum Provider {
   
 }
