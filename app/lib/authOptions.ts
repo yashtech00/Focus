@@ -6,87 +6,122 @@ import bcrypt from "bcryptjs";
 
 export const authOptions = {
   Providers: [
-    GithubProvider( {
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET
+    GithubProvider({
+      clientId: process.env.GITHUB_ID || "",
+      clientSecret: process.env.GITHUB_SECRET || "",
     }),
-    CredentialsProvider( {
+    CredentialsProvider({
       credentials: {
         username: { type: "text", placeholder: "Enter the username" },
         email: { type: "email", placeholder: "Enter your email" },
         password: { type: "password", placeholder: "Enter the password" },
-        },
-        async authorize(credentials) {
-            
-            if (!credentials || !credentials.email || !credentials.password) {
-                return null;
-            }
-            const UsernameValid = usernameSchema.safeParse(credentials.username);
-            if (!UsernameValid.success) {
-                return NextResponse.json({
-                    message:"Wrong Email format"
-                }, {
-                    status:401
-                })
-            }
-
-            const emailValid = emailSchema.safeParse(credentials.email);
-            if (!emailValid.success) {
-                return NextResponse.json({
-                    message:"Wrong Email format"
-                }, {
-                    status:401
-                })
-            }
-
-            const passwordValid = passwordSchema.safeParse(credentials.password);
-            if (!passwordValid.success) {
-                return NextResponse.json({
-                    message:"Wrong Password format"
-                }, {
-                    status:401
-                })
-            }
-            const 
-
-            try {
-                const user = await prisma.user.findUnique({
-                    where: {
-                        email:emailValid.data
-                    }
-                })
-                const hashedPassword = await bcrypt.hash(passwordValid.data, 10);
-                if (!user) {
-                    const newUser = await prisma.user.create({
-                        data: {
-                            username: UsernameValid.data,
-                            password: hashedPassword,
-                            email:emailValid.data
-                        }
-                    })
-                    return NextResponse.json({
-                        message: "User account created",
-                        newUser
-                    }, {
-                        status:200
-                    })
-                }
-                if(!user.password)
-                return NextResponse.json({
-                    message: "User Found",
-                    user
-                }, {
-                    status:200
-                })
-            } catch (e) {
-                console.error(e);
-                
-            }
-
-
-
-            
+      },
+      async authorize(credentials) {
+        if (!credentials || !credentials.email || !credentials.password) {
+          return null;
         }
+        const UsernameValid = usernameSchema.safeParse(credentials.username);
+        if (!UsernameValid.success) {
+          return NextResponse.json(
+            {
+              message: "Wrong Email format",
+            },
+            {
+              status: 401,
+            }
+          );
+        }
+
+        const emailValid = emailSchema.safeParse(credentials.email);
+        if (!emailValid.success) {
+          return NextResponse.json(
+            {
+              message: "Wrong Email format",
+            },
+            {
+              status: 401,
+            }
+          );
+        }
+
+        const passwordValid = passwordSchema.safeParse(credentials.password);
+        if (!passwordValid.success) {
+          return NextResponse.json(
+            {
+              message: "Wrong Password format",
+            },
+            {
+              status: 401,
+            }
+          );
+        }
+
+        try {
+          const user = await prisma.user.findUnique({
+            where: {
+              email: emailValid.data,
+            },
+          });
+          const hashedPassword = await bcrypt.hash(passwordValid.data, 10);
+          if (!user) {
+            const newUser = await prisma.user.create({
+              data: {
+                username: UsernameValid.data,
+                password: hashedPassword,
+                email: emailValid.data,
+              },
+            });
+            return NextResponse.json(
+              {
+                message: "User account created",
+                newUser,
+              },
+              {
+                status: 200,
+              }
+            );
+          }
+          if (!user.password) {
+            const authUser = await prisma.user.update({
+              where: {
+                email: emailValid.data,
+              },
+              data: {
+                password: hashedPassword,
+              },
+            });
+            return authUser;
+          }
+
+          const passwordVerify = await bcrypt.compare(
+            passwordValid.data,
+            user.password
+          );
+          if (!passwordVerify) {
+            throw new Error("Wrong password");
+          }
+          return NextResponse.json(
+            {
+              message: "User Found",
+              user,
+            },
+            {
+              status: 200,
+            }
+          );
+        } catch (e) {
+          console.error(e);
+          return NextResponse.json(
+            {
+              message: "Internal server error",
+            },
+            {
+              status: 200,
+            }
+          );
+        }
+      },
     }),
-    ],
+  ],
+  page: {},
 };
