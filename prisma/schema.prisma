@@ -19,3 +19,27 @@ model User {
   email String @unique
   password String 
 }
+
+model Task{
+   id String @id @default(uuid())
+   title String?
+   description String?
+   status String?
+   tags String?
+   startDate DateTime?
+   endDate DateTime?
+  
+  projectId String
+  project Project @relation(fields: [projectId],references: [id])
+}
+
+model Project{
+  id String @id @default(uuid())
+  title String?
+  description String?
+  startDate DateTime?
+   endDate DateTime?
+  task Task[]
+}
+
+
