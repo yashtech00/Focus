@@ -22,7 +22,9 @@ export const taskSchema = z.object({
     status: z.string(),
     tags: z.string(),
     startDate: z.date(),
-    endDate:z.date()
+    endDate: z.date(),
+    AuthorUserId: z.string(),
+    assignedUserId:z.string()
 })
 
 export const projectSchema = z.object({
