@@ -57,16 +57,12 @@ export async function GET(req:NextRequest) {
             status:401
         })
     }
-    const url = new URL(req.url)
-    const searchParams = new URLSearchParams(url.search);
-    const id = searchParams.get("id");
+    // const url = new URL(req.url)
+    // const searchParams = new URLSearchParams(url.search);
+    // const id = searchParams.get("id");
 
     try {
-        const project = await prisma.project.findUnique({
-            where: {
-                id:id
-            }
-        })
+        const project = await prisma.project.findMany()
         return NextResponse.json({
             message: "all Project fetch successfully ",
             project
@@ -76,9 +72,9 @@ export async function GET(req:NextRequest) {
     } catch (e) {
         console.error(e);
         return NextResponse.json({
-            message:"User not found"
+            message:"Internal server error"
         }, {
-            status:401
+            status:500
         })
     }
 }
