@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
+  uid       String  @id @default(uuid())
   username String?
   email    String  @unique
   password String
@@ -22,6 +22,9 @@ model User {
   teamId   String
   team     Team    @relation(fields: [teamId], references: [id])
   comment Comment[]
+  taskAssign TaskAssign[]
+  authoredTasks Task[] @relation("TaskAuthor")
+  asigneedTasks Task[] @relation("TaskAssigned") 
 }
 
 model Task {
@@ -32,11 +35,26 @@ model Task {
   tags        String?
   startDate   DateTime?
   endDate     DateTime?
+  AuthorUserId String
+  assignedUserId String
 
+  author User @relation("TaskAuthor" ,fields: [AuthorUserId],references: [uid])
+  assigned User? @relation("TaskAssigned",fields: [assignedUserId],references: [uid])
   projectId String
   project   Project @relation(fields: [projectId], references: [id])
+  taskAssign TaskAssign[]
   comment Comment[]
 }
+
+model TaskAssign{
+  id String @id @default(uuid())
+  userId String
+  taskId String
+
+  task Task @relation(fields: [taskId],references: [id])
+  user User @relation(fields: [userId],references: [uid])
+}
+
 
 model Project {
   id          String        @id @default(uuid())
@@ -73,7 +91,7 @@ model Comment {
   userId String
 
   task Task @relation(fields: [taskId],references: [id])
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [uid])
   
 }
 
