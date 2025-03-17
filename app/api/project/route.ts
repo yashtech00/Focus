@@ -48,7 +48,7 @@ export async function POST(req:NextRequest) {
     }  
 }
 
-export async function GET() {
+export async function GET(req:NextRequest) {
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
         return NextResponse.json({
@@ -57,12 +57,21 @@ export async function GET() {
             status:401
         })
     }
+    const url = new URL(req.url)
+    const searchParams = new URLSearchParams(url.search);
+    const id = searchParams.get("id");
 
     try {
         const project = await prisma.project.findUnique({
             where: {
-                
+                id:id
             }
+        })
+        return NextResponse.json({
+            message: "all Project fetch successfully ",
+            project
+        }, {
+            status:200
         })
     } catch (e) {
         console.error(e);
