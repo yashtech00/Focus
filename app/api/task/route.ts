@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const body = taskSchema.safeParse(req.json());
+  const body = taskSchema.safeParse(await req.json());
   if (!body.success) {
     return NextResponse.json(
       {
@@ -220,6 +220,12 @@ export async function GET_userTask(req: NextRequest) {
         assignee: true,
       },
     });
+      return NextResponse.json({
+          message: "fetch user task successfully",
+          userTask
+      }, {
+          status:200
+      })
   } catch (e: any) {
     console.error(e);
     return NextResponse.json(

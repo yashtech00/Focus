@@ -1,5 +1,6 @@
 import { authOptions } from "@/app/lib/authOptions";
 import prisma from "@/app/lib/db";
+import { projectSchema } from "@/app/Schema/type";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +15,7 @@ export async function POST(req:NextRequest) {
         })
     }
 
-    const body = projectSchema.safeparse(req.json());
+    const body = projectSchema.safeParse(await req.json());
     if (!body.success) {
         return NextResponse.json({
             message:"Wrong project Inputs"
