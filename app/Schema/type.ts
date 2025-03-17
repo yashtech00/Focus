@@ -1,3 +1,4 @@
+import { start } from "repl"
 import {z} from "zod"
 
 export const emailSchema = z
@@ -14,3 +15,20 @@ export const passwordSchema = z
 export const UsernameSchema = z
     .string({message:"Invaild name"})
    
+
+export const taskSchema = z.object({
+    title: z.string(),
+    description: z.string(),
+    status: z.string(),
+    tags: z.string(),
+    startDate: z.date(),
+    endDate:z.date()
+})
+
+export const projectSchema = z.object({
+    title: z.string(),
+    description: z.string(),
+    startDate: z.date(),
+    endDate:z.date()
+})
+
