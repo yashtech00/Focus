@@ -24,7 +24,8 @@ export const taskSchema = z.object({
     startDate: z.date(),
     endDate: z.date(),
     AuthorUserId: z.string(),
-    assignedUserId:z.string()
+    assignedUserId: z.string(),
+    projectId:z.string()
 })
 
 export const projectSchema = z.object({
