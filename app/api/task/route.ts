@@ -163,7 +163,7 @@ export async function PUT(req: NextRequest) {
   }
 
   try {
-    const UpdateTask = await prisma.task.Update({
+    const UpdateTask = await prisma.task.update({
       where: {
         id: taskId,
       },
@@ -193,48 +193,3 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-export async function GET_userTask(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    return NextResponse.json(
-      {
-        message: "User not found",
-      },
-      {
-        status: 401,
-      }
-    );
-  }
-
-  const url = new URL(req.url);
-  const searchParams = new URLSearchParams(url.search);
-  const userId = searchParams.get("userId");
-
-  try {
-    const userTask = await prisma.user.findMany({
-      where: {
-        OR: [{ authorUserId: userId }, { assignedUserId: userId }],
-      },
-      include: {
-        author: true,
-        assignee: true,
-      },
-    });
-      return NextResponse.json({
-          message: "fetch user task successfully",
-          userTask
-      }, {
-          status:200
-      })
-  } catch (e: any) {
-    console.error(e);
-    return NextResponse.json(
-      {
-        message: `Internal server error ${e.message}`,
-      },
-      {
-        status: 500,
-      }
-    );
-  }
-}
