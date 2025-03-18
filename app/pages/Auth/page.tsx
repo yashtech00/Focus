@@ -1,7 +1,8 @@
-import {AuthScreen} from "@/app/components/Auth/AuthScreen";
+"use client"
+import { AuthScreen } from "@/app/components/Auth/AuthScreen";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export type SignInFlow = "signIn" | "signUp";
