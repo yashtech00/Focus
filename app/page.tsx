@@ -4,7 +4,7 @@ import Landing from "./pages/LnadingPage/page";
 
 export default function Home() {
   return (
-    <div>
+    <div className="">
       <Landing/>
     </div>
   )

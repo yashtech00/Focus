@@ -66,12 +66,15 @@ export const authOptions = {
             },
           });
           const hashedPassword = await bcrypt.hash(passwordValid.data, 10);
+          
           if (!user) {
             const newUser = await prisma.user.create({
               data: {
                 username: UsernameValid.data,
                 password: hashedPassword,
                 email: emailValid.data,
+                provider: "Credentials",
+                teamId:"default"
               },
             });
             return NextResponse.json(
@@ -145,7 +148,7 @@ export const authOptions = {
           },
         });
         if (user) {
-          session.user.id = user.id;
+          session.user.id = user.uid;
         }
       } catch (e) {
         console.error(e);
@@ -164,9 +167,11 @@ export const authOptions = {
           if (!user) {
             const newUser = await prisma.user.create({
               data: {
-                email: profile?.email,
-                username: profile?.name,
+                email: profile?.email || "",
+                username: profile?.name || undefined,
                 provider: "Github",
+                teamId:"default"
+                
               },
             });
           }

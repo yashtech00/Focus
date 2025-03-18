@@ -40,7 +40,7 @@ export default function SignUpcard({ setFormType: setState }: SignupProp) {
           email,
           password,
           redirect: false,
-          callbackUrl: "/boarding",
+          callbackUrl: "/pages/dashboard",
         });
         res.then((res) => {
           if (res?.error) {
@@ -57,7 +57,7 @@ export default function SignUpcard({ setFormType: setState }: SignupProp) {
       if (provider === "github") {
         const res = signIn(provider, {
           redirect: false,
-          callbackUrl: "/boarding",
+          callbackUrl: "/pages/dashboard",
         });
         res.then((res) => {
           if (res?.error) {

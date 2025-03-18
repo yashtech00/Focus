@@ -7,7 +7,7 @@ CREATE TABLE "User" (
     "username" TEXT,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "provider" "Provider"[],
+    "provider" "Provider" NOT NULL,
     "teamId" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("uid")
