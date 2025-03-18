@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SignInFlow } from "../../types/auth-types"; // Ensure correct path and type imports
+import { SignInFlow } from "@/app/types/auth-types"; // Ensure correct path and type imports
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "sonner";

@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SignInFlow } from "../../types/auth-types";
+import { SignInFlow } from "@/app/types/auth-types";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "sonner";
@@ -79,7 +79,7 @@ export default function SignIncard({ setFormType: setState }: SignupProp) {
     }
   };
 
-  const handleCredentials = (e) => {
+  const handleCredentials = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setPending(true);
