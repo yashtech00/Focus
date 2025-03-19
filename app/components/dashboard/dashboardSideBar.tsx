@@ -1,9 +1,8 @@
 
-
 "use client";
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
-import { LayoutDashboard, UserCog, Settings, LogOut, Projector, Search } from "lucide-react";
+import { LayoutDashboard, UserCog, Settings, LogOut, Projector, Search, Home, icons } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -61,15 +60,38 @@ export function DashboardSidebar() {
         "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-10xl mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
         "h-screen" // for your use case, use `h-screen` instead of `h-[60vh]`
       )}
-    >
+      >
+        
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
+              <SidebarBody className="justify-between gap-10">
+                  
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
-              {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
-              ))}
+                          <Link href={"/pages/dashboard/home"}>
+                            <Home className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                            <span>Home</span>
+                          </Link>
+                          <Link href={"/pages/dashboard/timeline"}>
+                            <UserCog className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                            <span>Timeline</span>
+                          </Link>
+                          <Link href={"/pages/dashboard/search"}>
+                            <Search className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                            <span>Search</span>
+                          </Link>
+                          <Link href={"/pages/dashboard/users"}>
+                            <LogOut className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                            <span>Users</span>
+                          </Link>
+                          <Link href={"/pages/dashboard/team"}>
+                            <LogOut className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                            <span>Team</span>
+                          </Link>
+                          <Link href={"/pages/dashboard/projects"}>
+                            <Projector className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+                            <span>Projects</span>
+                          </Link>
             </div>
           </div>
           <div>
@@ -130,7 +152,8 @@ const Dashboard = () => {
   return (
     <div className="flex flex-1">
       <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
-        <div className="flex gap-2">
+              <div className="flex gap-2">
+                  
           {[...new Array(4)].map((i) => (
             <div
               key={"first-array" + i}
