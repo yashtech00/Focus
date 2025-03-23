@@ -1,9 +1,10 @@
+
 "use client"
 
-export function DashboardPage() {
+export default function Team() {
     return (
         <div>
-            hello dashboard
+            hello from team
         </div>
     )
 }

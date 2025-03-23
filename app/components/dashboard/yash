@@ -1,0 +1,123 @@
+import { useState } from "react";
+import {  
+  Sidebar,
+  SidebarProvider,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarFooter
+} from "@/components/sidebar";
+
+import { 
+  User,
+  ChevronsUpDown,
+  Calendar,
+  Home,
+  Inbox,
+  Search,
+  Settings 
+} from "lucide-react";
+
+// Define components for each section
+const HomeComponent = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold">Home</h1>
+    <p className="mt-2">Welcome to the Home page.</p>
+  </div>
+);
+
+const TimelineComponent = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold">Timeline</h1>
+    <p className="mt-2">This is the Timeline section.</p>
+  </div>
+);
+
+const CalendarComponent = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold">Calendar</h1>
+    <p className="mt-2">Your calendar events appear here.</p>
+  </div>
+);
+
+const SearchComponent = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold">Search</h1>
+    <p className="mt-2">Find anything you need.</p>
+  </div>
+);
+
+const SettingsComponent = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold">Settings</h1>
+    <p className="mt-2">Adjust your preferences.</p>
+  </div>
+);
+
+// Menu items
+const items = [
+  { title: "Home", component: HomeComponent, icon: Home },
+  { title: "Timeline", component: TimelineComponent, icon: Inbox },
+  { title: "Calendar", component: CalendarComponent, icon: Calendar },
+  { title: "Search", component: SearchComponent, icon: Search },
+  { title: "Settings", component: SettingsComponent, icon: Settings },
+];
+
+export function DashboardSidebar() {
+  const [selectedComponent, setSelectedComponent] = useState(<HomeComponent />);
+
+  return (
+    <SidebarProvider>
+      <div className="flex">
+        <Sidebar>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>Application</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton
+                        asChild
+                        tooltip={item.title}
+                        onClick={() => setSelectedComponent(<item.component />)}
+                      >
+                        <button className="flex items-center gap-2">
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </button>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+
+          <SidebarFooter>
+            <SidebarGroup>
+              <SidebarMenuButton className="w-full justify-between gap-3 h-12">
+                <div className="flex items-center gap-2">
+                  <User className="h-5 w-5 rounded-md" />
+                  <div className="flex flex-col items-start">
+                    <span className="text-sm font-medium">John Doe</span>
+                    <span className="text-xs text-muted-foreground">john@example.com</span>
+                  </div>
+                </div>
+                <ChevronsUpDown className="h-5 w-5 rounded-md" />
+              </SidebarMenuButton>
+            </SidebarGroup>
+          </SidebarFooter>
+        </Sidebar>
+
+        <main className="flex-1 min-h-screen p-6">
+          {selectedComponent}
+        </main>
+      </div>
+    </SidebarProvider>
+  );
+}
