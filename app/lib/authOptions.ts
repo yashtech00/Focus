@@ -144,7 +144,7 @@ export const authOptions = {
       try {
         const user = await prisma.user.findUnique({
           where: {
-            email: token.email,
+            email: token.email || "",
           },
         });
         if (user) {
@@ -157,7 +157,7 @@ export const authOptions = {
     },
     async signIn({ account, profile }) {
       try {
-        if (account?.provider === "github" && profile) {
+        if (account?.provider === "github") {
           const user = await prisma.user.findUnique({
             where: {
               email: profile?.email,
@@ -168,10 +168,9 @@ export const authOptions = {
             const newUser = await prisma.user.create({
               data: {
                 email: profile?.email || "",
-                username: profile?.name || undefined,
+                username: profile?.name || "",
                 provider: "Github",
-                teamId:"default"
-                
+                teamId:"1" 
               },
             });
           }

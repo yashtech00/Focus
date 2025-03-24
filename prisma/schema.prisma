@@ -19,7 +19,7 @@ model User {
   email         String       @unique
   password      String?
   provider      Provider
-  teamId        String
+  teamId        String 
   team          Team         @relation(fields: [teamId], references: [id])
   comment       Comment[]
   taskAssign    TaskAssign[]

@@ -16,7 +16,7 @@ export default function AuthPage() {
 
     useEffect(() => {
         if (session.status === "authenticated") {
-            router.push("/dashboard")
+            router.push("/pages/dashboard")
         }
     },[session.status,router])
     

@@ -40,7 +40,7 @@ export default function SignIncard({ setFormType: setState }: SignupProp) {
             email,
             password,
             redirect: false,
-            callbackUrl: "/boarding",
+            callbackUrl: "/pages/dashboard",
           },
         });
         res.then((res) => {
@@ -59,7 +59,7 @@ export default function SignIncard({ setFormType: setState }: SignupProp) {
         const res = signIn(provider, {
           data: {
             redirect: false,
-            callbackUrl: "/boarding",
+            callbackUrl: "/pages/dashboard",
           },
         });
         res.then((res) => {

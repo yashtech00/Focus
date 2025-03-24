@@ -2,8 +2,10 @@
 
 export function DashboardPage() {
     return (
-        <div>
+        <div className="flex  items-center justify-center">
             hello dashboard
+            wejnckjwenvkjncwekjnvkjlnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
+            
         </div>
     )
 }
